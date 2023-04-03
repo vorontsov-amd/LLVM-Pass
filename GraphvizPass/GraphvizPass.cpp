@@ -22,27 +22,32 @@ namespace {
 
 using namespace llvm;
 
-struct Hello : public FunctionPass {
+struct GraphvizPass : public FunctionPass {
   static char ID;
-  Hello() : FunctionPass(ID) {}
+  GraphvizPass() : FunctionPass(ID) {}
 
   bool runOnFunction(Function &F) override {
     if (isFuncLogger(F.getName())) {
       return false;
     }
 
-    auto&& loger = Loger::create("NEWGRAPH.txt");
+    auto&& loger = Loger::create("StaticGraph.txt");
 
     CreateSubgraph(loger, F);
     for (auto &&B : F) {
       CreateSubgraph(loger, B);
-      ConnectInstructions(loger, B);
       for (auto &&I : B) {
         DumpInstruction(loger, I);
+      }
+      ConnectInstructions(loger, B);
+      loger << "}\n";
+    }
+
+    for (auto &&B : F) {
+      for (auto &&I : B) {
         ConnectToUser(loger, I);
       }
       ConnectBasicBlock(loger, B);
-      loger << "}\n";
     }
     loger << "}\n";
 
@@ -81,9 +86,10 @@ struct Hello : public FunctionPass {
     }
 
     static void ConnectInstructions(raw_fd_ostream& loger, const BasicBlock& B) {
+      if (B.size() == 1) return;
       for (auto &&it = B.begin(), &&next = std::next(it); next != B.end(); it = next, ++next) {
         loger << "Instruction" << &(*it) << " -> " << "Instruction" << &(*next)
-              << "[color = blue, style = dotted, arrowhead = none];\n";
+              << "[color = red, style = dotted];\n";
       }
     }
 
@@ -99,7 +105,7 @@ struct Hello : public FunctionPass {
     static void ConnectBasicBlock(raw_fd_ostream& loger, const BasicBlock& B) {
       for (auto &&U : B.uses()) {
         auto&& pUser = U.getUser();
-        loger << "Instruction" << pUser << " -> " << "Instruction" << &(*B.begin()) << ";\n";
+        loger << "Instruction" << pUser << " -> " << "Instruction" << &(*B.begin()) << " [color = blue, style = dotted];\n";
       }
     }
 
@@ -149,11 +155,11 @@ struct Hello : public FunctionPass {
         }
       }
     }
-}; // end of struct Hello
+}; // end of struct GraphvizPass
 
-char Hello::ID = 0;
+char GraphvizPass::ID = 0;
 
-static RegisterPass<Hello> X("hello", "Hello World Pass",
+static RegisterPass<GraphvizPass> X("graphviz", "Graphviz Pass",
                              false /* Only looks at CFG */,
                              false /* Analysis Pass */);
 

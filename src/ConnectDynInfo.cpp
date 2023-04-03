@@ -52,9 +52,9 @@ void LinkWithStaticInfo(std::ifstream& StaticInfoFile, std::ofstream& ResultFile
 }
 
 int main() try {
-  std::ifstream StaticInfoFile("../NEWGRAPH.txt");
-  std::ifstream DynamicInfoFile("../log.txt");
-  std::ofstream ResultFile("../FinalFile.txt");
+  std::ifstream StaticInfoFile("output/StaticGraph.txt");
+  std::ifstream DynamicInfoFile("output/log.txt");
+  std::ofstream ResultFile("output/FinalGraph.txt");
 
   if (StaticInfoFile.is_open() and DynamicInfoFile.is_open() and ResultFile.is_open()) {
     auto&& info = GetDynamicInfo(DynamicInfoFile);

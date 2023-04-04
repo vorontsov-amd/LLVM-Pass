@@ -9,7 +9,7 @@ current_path=$(pwd)
 # add functions for logging to user code and compile it
 cp ${programm}.c output/${programm}.c
 cat src/log.c >> output/${programm}.c
-clang -O0 -emit-llvm ${programm}.c -c -o output/${programm}.bc
+clang -O0 -emit-llvm output/${programm}.c -c -o output/${programm}.bc
 
 # Compile LLVM
 cd $llvm_project/llvm/build

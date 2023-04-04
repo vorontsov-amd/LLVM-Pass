@@ -29,6 +29,8 @@ For a simple compilation, you can place your C file in the directory where you c
 
 ## Example
 
+### Hello world:
+
 ```shell
 > ./run.sh /home/amadey/Программы/LLVM/llvm-project helloTest
 ```
@@ -46,3 +48,15 @@ For a simple compilation, you can place your C file in the directory where you c
 Hello, world!
 ```
 ![](https://sun9-50.userapi.com/impg/B4SfTiVW_Dz7LXyRMnjini7fWeb4ikKyenLhuA/NH2mVX_2xKo.jpg?size=1614x568&quality=96&sign=439bc81e2fa5ee3d4999334b78df6f32&type=album)
+
+### Factorial:
+
+```shell
+> ./run.sh /home/amadey/Программы/LLVM/llvm-project factorial 4
+```
+
+#### Output:
+
+![](https://sun9-8.userapi.com/impg/4Gkcdnhqh6ReinXMDxgl2KAwMOCkOcjEhXQ-2Q/hi0fPEnjc3c.jpg?size=2168x2160&quality=96&sign=ef2cdb429650da2c211b3c2d24f63901&type=album)
+
+You can find higher quality images in the examples folde
